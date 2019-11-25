@@ -39,4 +39,27 @@ public static class UtilityMethods
 
 
     }
+
+    //This method has two parameters: The Transform, which has to be rotated and the position
+    //where it wants to look.It returns a Quaternion, which is the new local rotation for the Transform.
+    //It’s also static, which means that — as you may remember — it can be called from
+    //any class without having to have a reference to it beforehand.
+    public static Quaternion SmoothlyLook(Transform fromTransform, Vector3 toVector3)
+    {
+        //this check makes sure that the method stops executing 
+        //if the origin point and destination are the same
+        if (fromTransform.position == toVector3)
+        {
+            return fromTransform.localRotation;
+        }
+
+        //This block stores the current rotation and creates the target rotation 
+        //for the Transform by using the LookRotation() method
+        Quaternion currentRotation = fromTransform.localRotation;
+        Quaternion targetRotation = Quaternion.LookRotation(toVector3 - fromTransform.position);
+
+        //This is the actual method that makes the rotation interpolate, Slerp()
+        //if creates a gradual rotation from current to target
+        return Quaternion.Slerp(currentRotation, targetRotation, Time.deltaTime * 10f);
+    }
 }

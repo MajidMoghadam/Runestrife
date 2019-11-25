@@ -88,7 +88,8 @@ public class Enemy : MonoBehaviour
                                 targetPosition,
                                 moveSpeed * Time.deltaTime);
         //Look at the target
-        transform.LookAt(targetPosition);
+        //transform.LookAt(targetPosition);
+        transform.localRotation = UtilityMethods.SmoothlyLook(transform, targetPosition);
 
         //If the enemy is very close to the target waypoint, 
         //set the next waypoint as the target.
